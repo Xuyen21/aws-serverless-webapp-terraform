@@ -37,7 +37,23 @@ The guide's troubleshooting advice (enable CORS on both S3 and API Gateway, chec
 ## Prerequisites
 
 - Terraform >= 1.3
-- AWS credentials with permission to create S3, DynamoDB, Lambda, IAM and API Gateway resources (e.g. `aws configure` or `AWS_*` environment variables)
+- AWS credentials with permission to create S3, DynamoDB, Lambda, IAM and API Gateway resources
+
+## Credentials and environment
+
+Copy the template and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+`.env` holds `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` (plus `AWS_SESSION_TOKEN` for temporary credentials) and optional `TF_VAR_*` overrides. Terraform does not read `.env` itself, so load it into your shell first:
+
+```bash
+set -a; source .env; set +a
+```
+
+`.env` is git-ignored; only `.env.example` is committed. Alternatively, skip `.env` and use `aws configure` or an AWS profile.
 
 ## Deploy
 
@@ -67,7 +83,7 @@ Sample accounts: `1001`, `1002`, `1003`.
 
 ## Configuration
 
-Override defaults with `-var` or a `terraform.tfvars` file:
+Override defaults with `-var`, `TF_VAR_*` variables in `.env`, or a `terraform.tfvars` file:
 
 ```hcl
 region              = "us-east-1"
